@@ -8,6 +8,7 @@
         this.data = [];
         this.day = 86400000;
         this.months = ["Jan"/*"Fab","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"*/];
+        return this;
     }
     DatePicker.prototype.getMonthDays = function(year){
         for(var index = 0; index < this.months.length; index++){
@@ -17,38 +18,48 @@
             this.monthDays = Math.round((this.endDate - this.startDate)/this.day);
             this.data[index] = {year: this.year, month: this.months[index], days: this.monthDays};
         }
-        return this.data;
+        return this;
+    };
+    DatePicker.prototype.buildPicker = function(){
+        var datepicker = document.getElementById('datePicker');
+        var newDiv = document.createElement("div");
+        newDiv.className = "newDiv";
+        var leftButton = document.createElement("div");
+        leftButton.className = "leftBtn";
+        leftButton.innerHTML = "left";
+        var yearBlock = document.createElement("div");
+        yearBlock.className = "yearBlock";
+        yearBlock.innerHTML = "year";
+        var rightButton = document.createElement("div");
+        rightButton.className = "rightBtn";
+        rightButton.innerHTML = "right";
+        var daysBlock = document.createElement("div");
+        daysBlock.className = "daysBlock";
+        daysBlock.innerHTML = "days!!!!!!!!";
+        datepicker.appendChild(newDiv);
+        newDiv.appendChild(leftButton);
+        newDiv.appendChild(yearBlock);
+        newDiv.appendChild(rightButton);
+        newDiv.appendChild(daysBlock);
+        //event.target.removeEventListener(event.type, arguments.callee);
     };
     DatePicker.prototype.showDatePicker = function(){
-        var btn = document.getElementById('btn');
-        var datepicker = document.getElementById('datePicker');
-        btn.addEventListener("click", function(){
-            var newDiv = document.createElement("div");
-            newDiv.className = "newDiv";
-            var leftButton = document.createElement("div");
-            leftButton.className = "leftBtn";
-            leftButton.innerHTML = "left";
-            var yearBlock = document.createElement("div");
-            yearBlock.className = "yearBlock";
-            yearBlock.innerHTML = "year!!!!!!!!";
-            var rightButton = document.createElement("div");
-            rightButton.className = "rightBtn";
-            rightButton.innerHTML = "right";
-            var daysBlock = document.createElement("div");
-            daysBlock.className = "daysBlock";
-            daysBlock.innerHTML = "days!!!!!!!!";
-            datepicker.appendChild(newDiv);
-            newDiv.appendChild(leftButton);
-            newDiv.appendChild(yearBlock);
-            newDiv.appendChild(rightButton);
-            newDiv.appendChild(daysBlock);
-        })
+        this.yearBlock = document.createElement("div");
+        this.leftButton = document.createElement("div");
+        this.rightButton = document.createElement("div");
+        this.daysBlock = document.createElement("div");
+        this.btn = document.getElementById('btn');
+        this.setYear();
+        this.btn.addEventListener("click", this.buildPicker.bind(this), false);
+        return this;
     };
-
+    DatePicker.prototype.setYear = function(){
+        this.yearBlock.innerHTML = this.year;
+        return this;
+    };
     var datePicker = new DatePicker();
-    var decodedData = datePicker.getMonthDays(2015);
-    console.log(decodedData);
-    datePicker.showDatePicker();
+    datePicker.getMonthDays(2015);
+    console.log(datePicker.showDatePicker());
 
 
 
