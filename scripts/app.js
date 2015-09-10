@@ -5,26 +5,17 @@
     //debugger;
 
     function DatePicker(){
-        this.currentDate = new Date();
-        this.data = [];
-        this.days = [];
+
         this.day = 86400000;
         this.months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         this.weekdays = ["Sun", "Mon", "Tus", "Wen", "Thu", "Fri", "Sat"];
+        this.currentMonth = 5;
         return this;
+
     }
-    DatePicker.prototype.getMonthDays = function(){
-        for(var index = 0; index < this.months.length; index++){
-            this.year = this.currentDate.getFullYear();
-            this.month = this.currentDate.getMonth();
-            this.startDate = new Date(this.year, index, 1);
-            this.endDate = new Date(this.year, index+1, 1);
-            this.monthDays = Math.round((this.endDate - this.startDate)/this.day);
-            this.data[index] = {year: this.year, month: this.months[index], days: this.monthDays};
-        }
-        return this;
-    };
-    DatePicker.prototype.getTemplate = function(){
+
+    DatePicker.prototype.addTemplate = function(){
+
         this.template =
             '<div class="datepicker">'+
             '<div class="head">'+
@@ -42,38 +33,51 @@
         document.body.appendChild(this.newDiv);
         return this;
     };
-    DatePicker.prototype.setDate = function(){
+
+    DatePicker.prototype.setFields = function(){
+
+        this.blockDays = document.getElementById("days");
+
         this.yearDisplay = this.newDiv.querySelector('.yearview');                 /* setting year dating */
         this.weekdaysDisplay = this.newDiv.querySelector('.calendarhead');         /* setting week days dating */
         this.daysDisplay = this.newDiv.querySelector('.calendarbody');
-        this.yearDisplay.innerHTML = this.months[this.currentDate.getMonth()] + " " + this.year;
+
         this.ul = document.createElement('ul');
         this.ul.className = "ul";
         this.weekdaysDisplay.appendChild(this.ul);
+
         for(var i=0; i<this.weekdays.length;i++){
             this.li = document.createElement('li');
             this.li.className = "li";
             this.li.innerHTML = this.weekdays[i];
             this.ul.appendChild(this.li);
         }
-        this.startDate = new Date(this.year, this.currentDate.getMonth(), 1);
-        this.endDate = new Date(this.year, this.currentDate.getMonth()+1, 1);
-        this.monthDays = Math.round((this.endDate - this.startDate)/this.day);
+
         this.ulDays = document.createElement('ul');
         this.ulDaysSecond = document.createElement('ul');
         this.ulDaysThird = document.createElement('ul');
         this.ulDaysForth = document.createElement('ul');
         this.ulDaysFifth = document.createElement('ul');
+
         this.ulDays.className = "ulDays";
         this.ulDaysSecond.className = "ulDays";
         this.ulDaysThird.className = "ulDays";
         this.ulDaysForth.className = "ulDays";
         this.ulDaysFifth.className = "ulDays";
+
         this.daysDisplay.appendChild(this.ulDays);
         this.daysDisplay.appendChild(this.ulDaysSecond);
         this.daysDisplay.appendChild(this.ulDaysThird);
         this.daysDisplay.appendChild(this.ulDaysForth);
         this.daysDisplay.appendChild(this.ulDaysFifth);
+
+        this.startDate = new Date(2015, this.currentMonth, 1);
+        this.endDate = new Date(2015, this.currentMonth + 1, 1);
+        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
+        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
+
+        this.blockDays.innerHTML = this.monthDays;
+
         for(var j=1; j<=this.monthDays; j++){
             if(j<=7){
                 this.li = document.createElement('li');
@@ -106,32 +110,150 @@
                 this.ulDaysFifth.appendChild(this.li);
             }
         }
+
         return this;
     };
-    DatePicker.prototype.getPrevious = function(){
-        console.log(this.currentDate.getMonth());
-        for(var k = 0; k <= this.currentDate.getMonth(); k--){
-            console.log(k);
-        }
+
+    DatePicker.prototype.getPrevious = function() {
+
+        this.currentMonth = this.currentMonth - 1;
+        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
+
+        this.startDate = new Date(2015, this.currentMonth, 1);
+        this.endDate = new Date(2015, this.currentMonth + 1, 1);
+        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
+
+        this.blockDays.innerHTML = this.monthDays;
+
+
+        /*if(this.monthDays === 31){
+         alert('equal 31');
+         //this.ulDaysFifth.removeAttribute(this.li);
+         //this.li = 'sdd';
+         //this.ulDaysFifth.appendChild(this.li);
+         //this.li = document.createElement('li');
+         //this.li.className = "li";
+         //this.li.innerHTML = 31;
+         //this.ulDaysFifth.appendChild(this.li);
+         }
+         if(this.monthDays === 30){
+         alert('equal 30');
+         }
+         if(this.monthDays === 29){
+         alert('equal 29');
+         }
+         if(this.monthDays === 28){
+         alert('equal 28');
+         }*/
+        /*for(var j=0; j<=this.monthDays; j++){
+         if(j<=7){
+         this.li.innerHTML = j;
+         //this.ulDays.innerHTML = "kjskask" + j;
+         }
+         if(j>7 && j<=14){
+         this.li.innerHTML = j;
+         //this.ulDaysSecond.innerHTML = "kjskask" + j;
+         }
+         if(j>14 && j<=21){
+         this.li.innerHTML = j;
+         //this.ulDaysThird.innerHTML = "kjskask";
+         }
+         if(j>21 && j<=28){
+         this.li.innerHTML = j;
+         //this.ulDaysForth.innerHTML = "kjskask";
+         }
+         if(j>28 && j <=this.monthDays){
+         this.li.innerHTML = j;
+         //this.ulDaysFifth.firstChild(this.ul).innerHTML = j;
+         }
+         }*/
     };
-    DatePicker.prototype.getNext = function(){
-        console.log(this.currentDate.getMonth());
-        for(var k = this.currentDate.getMonth(); k <= 11; k++){
-            console.log(k);
-        }
-    };
+
     DatePicker.prototype.changeDate = function(){
-        this.prev = document.getElementById('prev');
-        this.next = document.getElementById('next');
-        this.prev.addEventListener('click', this.getPrevious.bind(this), false);
-        this.next.addEventListener('click', this.getNext.bind(this), false);
+
+        var btnPrev = document.getElementById('prev');
+        //var btnNext = document.getElementById('next');
+        btnPrev.addEventListener('click', this.getPrevious.bind(this), false);
+        //btnNext.addEventListener('click', this.getNext.bind(this), false);
+
     };
 
     var datePicker = new DatePicker();
-    datePicker.getMonthDays();
-    datePicker.getTemplate();
-    console.log(datePicker.setDate());
+    datePicker.addTemplate();
+    datePicker.setFields();
     datePicker.changeDate();
+
+
+
+    /*DatePicker.prototype.getMonthDays = function(){
+     this.year = this.currentDate.getFullYear();
+     this.month = this.currentDate.getMonth();
+     for(var index = 0; index < this.months.length; index++){
+     this.startDate = new Date(this.year, index, 1);
+     this.endDate = new Date(this.year, index+1, 1);
+     this.monthDays = Math.round((this.endDate - this.startDate)/this.day);
+     this.data[index] = {year: this.year, month: this.months[index], days: this.monthDays};
+     }
+     return this;
+     };*/
+
+    /*this.currentMonthIndex = this.months.indexOf(this.currentMonth);
+     console.log(this.currentMonthIndex);
+     this.currentMonth = this.months[this.currentMonthIndex - 1];
+     this.yearDisplay.innerHTML = this.currentMonth + " " + this.year;
+     this.startDate = new Date(this.year, this.currentMonthIndex, 1);
+     this.endDate = new Date(this.year, this.currentMonthIndex+1, 1);
+     this.monthDays = Math.round((this.endDate - this.startDate)/this.day);
+     console.log(this.monthDays);
+     for(var j=1; j<=this.monthDays; j++){
+     if(j<=7){
+     this.li = document.createElement('li');
+     this.li.className = "li";
+     this.li.innerHTML = j;
+     this.ulDays.appendChild(this.li);
+     }
+     if(j>7 && j<=14){
+     this.li = document.createElement('li');
+     this.li.className = "li";
+     this.li.innerHTML = j;
+     this.ulDaysSecond.appendChild(this.li);
+     }
+     if(j>14 && j<=21){
+     this.li = document.createElement('li');
+     this.li.className = "li";
+     this.li.innerHTML = j;
+     this.ulDaysThird.appendChild(this.li);
+     }
+     if(j>21 && j<=28){
+     this.li = document.createElement('li');
+     this.li.className = "li";
+     this.li.innerHTML = j;
+     this.ulDaysForth.appendChild(this.li);
+     }
+     if(j>28 && j <=this.monthDays){
+     this.li = document.createElement('li');
+     this.li.className = "li";
+     this.li.innerHTML = j;
+     this.ulDaysFifth.appendChild(this.li);
+     }
+     }
+     this.yearDisplay.innerHTML = this.months[this.currentDate.getMonth()];
+     this.currentDate.getMonth();
+     this.newMonths = [];
+     for(var i = this.currentDate.getMonth(); i>=0; i--){
+     this.newMonths.push(this.months[i]);
+     //delete this.newMonths[0];
+     }
+     delete this.newMonths[0];
+     this.yearDisplay.innerHTML = this.newMonths[1];
+     return this.newMonths;
+     this.months.splice(this.months[this.currentDate.getMonth()], 1);
+     console.log(this.newMonths);*/
+
+    /*DatePicker.prototype.getNext = function(){
+     console.log(this.currentDate.getMonth());
+     };*/
+
 
     /*DatePicker.prototype.showDatePicker = function(){
      //this.datePicker = document.getElementById('datePicker');
