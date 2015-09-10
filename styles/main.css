@@ -1,5 +1,5 @@
 
-    .datePicker{
+    /*.datePicker{
         margin: 0 auto;
         width: 33%;
         height: 350px;
@@ -46,4 +46,70 @@
         width: 60%;
         height: 170px;
         background-color: gray;
+    }*/
+
+
+    /*    */
+
+    .datepicker {
+        margin: 0 auto;
+        width: 400px;
+        height: 400px;
+        background-color: #6FDA44;
+    }
+    .head{
+        width: 100%;
+        height: 50px;
+        background-color: #3C3F41;
+    }
+    .body{
+        width: 100%;
+        height: 250px;
+        background-color: #323439;
+    }
+    .calendarhead{
+        width: 100%;height: 50px;
+    }
+    .calendarbody{
+        width: 100%;height: 200px;
+    }
+    .monthview {
+        width: 70%;
+        float: left;
+        cursor: pointer;
+        text-align: center;
+        color: #fff;
+        line-height: 50px;
+        font-size: 16px;
+        -webkit-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+    .previous{
+        width: 15%;
+        float: left;
+        cursor: pointer;
+        height: 100%;
+        font-size: 22px;
+        vertical-align: middle;
+        line-height: 50px;
+        text-align: center;
+        color: #adadaf;
+        -webkit-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+    .next {
+        width: 15%;
+        float: left;
+        cursor: pointer;
+        height: 100%;
+        font-size: 22px;
+        vertical-align: middle;
+        line-height: 50px;
+        text-align: center;
+        color: #adadaf;
+        -webkit-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+    .previous:hover,.next:hover,div.monthview:hover{
+        background-color: #6FDA44;
     }
