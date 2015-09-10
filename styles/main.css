@@ -53,8 +53,8 @@
 
     .datepicker {
         margin: 0 auto;
-        width: 400px;
-        height: 400px;
+        width: 500px;
+        height: 500px;
         background-color: #6FDA44;
     }
     .head{
@@ -64,7 +64,7 @@
     }
     .body{
         width: 100%;
-        height: 250px;
+        height: 400px;
         background-color: #323439;
     }
     .calendarhead{
@@ -111,25 +111,24 @@
         transition: all 0.2s ease-in;
     }
     .ul{
+        width: 100%;
+        margin-left: 7%;
         list-style-type: none;
         display: inline-flex;
     }
     .li{
+        width: 30px;
         padding: 10px;
         color: #fff;
         font-weight: normal;
         cursor: pointer;
     }
     .ulDays{
+        width: 100%;
+        margin-left: 7%;
         list-style-type: none;
         display: inline-flex;
         float: left;
-    }
-    .liDays{
-        padding: 5px;
-        color: #fff;
-        font-weight: normal;
-        cursor: pointer;
     }
     .previous:hover,.next:hover,.yearview:hover,.li:hover{
         background-color: #6FDA44;

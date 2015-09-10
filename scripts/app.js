@@ -2,7 +2,7 @@
  * Created by Maksym on 10.09.2015.
  */
 
-//debugger;
+    //debugger;
 
     function DatePicker(){
         this.currentDate = new Date();
@@ -60,17 +60,54 @@
         this.endDate = new Date(this.year, this.currentDate.getMonth()+1, 1);
         this.monthDays = Math.round((this.endDate - this.startDate)/this.day);
         this.ulDays = document.createElement('ul');
+        this.ulDaysSecond = document.createElement('ul');
+        this.ulDaysThird = document.createElement('ul');
+        this.ulDaysForth = document.createElement('ul');
+        this.ulDaysFifth = document.createElement('ul');
         this.ulDays.className = "ulDays";
+        this.ulDaysSecond.className = "ulDays";
+        this.ulDaysThird.className = "ulDays";
+        this.ulDaysForth.className = "ulDays";
+        this.ulDaysFifth.className = "ulDays";
         this.daysDisplay.appendChild(this.ulDays);
-        for(var j=0;j<this.monthDays;j++){
-            this.liDays = document.createElement('li');
-            this.liDays.className = "li";
-            this.liDays.innerHTML = j;
-            this.ulDays.appendChild(this.liDays);
+        this.daysDisplay.appendChild(this.ulDaysSecond);
+        this.daysDisplay.appendChild(this.ulDaysThird);
+        this.daysDisplay.appendChild(this.ulDaysForth);
+        this.daysDisplay.appendChild(this.ulDaysFifth);
+        for(var j=1; j<=this.monthDays; j++){
+            if(j<=7){
+                this.li = document.createElement('li');
+                this.li.className = "li";
+                this.li.innerHTML = j;
+                this.ulDays.appendChild(this.li);
+            }
+            if(j>7 && j<=14){
+                this.li = document.createElement('li');
+                this.li.className = "li";
+                this.li.innerHTML = j;
+                this.ulDaysSecond.appendChild(this.li);
+            }
+            if(j>14 && j<=21){
+                this.li = document.createElement('li');
+                this.li.className = "li";
+                this.li.innerHTML = j;
+                this.ulDaysThird.appendChild(this.li);
+            }
+            if(j>21 && j<=28){
+                this.li = document.createElement('li');
+                this.li.className = "li";
+                this.li.innerHTML = j;
+                this.ulDaysForth.appendChild(this.li);
+            }
+            if(j>28 && j <=this.monthDays){
+                this.li = document.createElement('li');
+                this.li.className = "li";
+                this.li.innerHTML = j;
+                this.ulDaysFifth.appendChild(this.li);
+            }
         }
-        return this.monthDays;
+        return this;
     };
-
     var datePicker = new DatePicker();
     datePicker.getMonthDays();
     datePicker.getTemplate();
