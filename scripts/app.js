@@ -28,9 +28,9 @@
         this.template =
             '<div class="datepicker">'+
             '<div class="head">'+
-            '<div class="previous"></div>'+
+            '<div class="previous"><button id = "prev">prev</button></div>'+
             '<div class="yearview">August 2015</div>'+
-            '<div class="next"></div>'+
+            '<div class="next"><button id = "next">next</button></div>'+
             '</div>'+
             '<div class="body">'+
             '<div class="calendarhead"></div>'+
@@ -108,10 +108,30 @@
         }
         return this;
     };
+    DatePicker.prototype.getPrevious = function(){
+        console.log(this.currentDate.getMonth());
+        for(var k = 0; k <= this.currentDate.getMonth(); k--){
+            console.log(k);
+        }
+    };
+    DatePicker.prototype.getNext = function(){
+        console.log(this.currentDate.getMonth());
+        for(var k = this.currentDate.getMonth(); k <= 11; k++){
+            console.log(k);
+        }
+    };
+    DatePicker.prototype.changeDate = function(){
+        this.prev = document.getElementById('prev');
+        this.next = document.getElementById('next');
+        this.prev.addEventListener('click', this.getPrevious.bind(this), false);
+        this.next.addEventListener('click', this.getNext.bind(this), false);
+    };
+
     var datePicker = new DatePicker();
     datePicker.getMonthDays();
     datePicker.getTemplate();
     console.log(datePicker.setDate());
+    datePicker.changeDate();
 
     /*DatePicker.prototype.showDatePicker = function(){
      //this.datePicker = document.getElementById('datePicker');
