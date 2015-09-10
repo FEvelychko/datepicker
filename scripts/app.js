@@ -2,6 +2,8 @@
  * Created by Maksym on 10.09.2015.
  */
 
+//debugger;
+
     function DatePicker(){
         this.data = [];
         this.day = 86400000;
@@ -23,11 +25,15 @@
         }
         return this.data;
     };
+    DatePicker.prototype.showDatePicker = function(){
+
+    };
 
     var datePicker = new DatePicker();
     var decodedData = datePicker.getMonthDays(2015);
     var showDecodedMonthId = datePicker.decodeMonths();
     console.log(showDecodedMonthId);
+    var shownBlock = datePicker.showDatePicker();
 
 
     /*DatePicker.prototype.renameProperty = function (oldName, newName) {

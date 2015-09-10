@@ -1,0 +1,16 @@
+
+    .datePicker{
+        margin: 0 auto;
+        border: gray;
+        width: 33%;
+        height: 350px;
+        background-color: #FF6766;
+    }
+    button{
+        margin-left: 40%;
+        background-color: #F2F2F2;
+        width: 20%;
+        height: 10%;
+        font-weight: bold;
+        cursor: pointer;
+    }
