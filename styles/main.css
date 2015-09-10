@@ -73,7 +73,7 @@
     .calendarbody{
         width: 100%;height: 200px;
     }
-    .monthview {
+    .yearview {
         width: 70%;
         float: left;
         cursor: pointer;
@@ -110,6 +110,27 @@
         -webkit-transition: all 0.2s ease-in;
         transition: all 0.2s ease-in;
     }
-    .previous:hover,.next:hover,div.monthview:hover{
+    .ul{
+        list-style-type: none;
+        display: inline-flex;
+    }
+    .li{
+        padding: 10px;
+        color: #fff;
+        font-weight: normal;
+        cursor: pointer;
+    }
+    .ulDays{
+        list-style-type: none;
+        display: inline-flex;
+        float: left;
+    }
+    .liDays{
+        padding: 5px;
+        color: #fff;
+        font-weight: normal;
+        cursor: pointer;
+    }
+    .previous:hover,.next:hover,.yearview:hover,.li:hover{
         background-color: #6FDA44;
     }
