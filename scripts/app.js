@@ -124,57 +124,74 @@
         this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
 
         this.blockDays.innerHTML = this.monthDays;
+        console.log(this.months[this.currentMonth] + " " + this.monthDays);
 
+        if(this.monthDays === 28){
+            this.ulDaysFifth.firstChild.innerHTML = "";
+            this.ulDaysFifth.childNodes[1].innerHTML = "";
+            this.ulDaysFifth.lastChild.innerHTML = "";
+        }
+        if(this.monthDays === 29){
+            this.ulDaysFifth.firstChild.innerHTML = "29";
+            this.ulDaysFifth.childNodes[1].innerHTML = "";
+            this.ulDaysFifth.lastChild.innerHTML = "";
 
-        /*if(this.monthDays === 31){
-         alert('equal 31');
-         //this.ulDaysFifth.removeAttribute(this.li);
-         //this.li = 'sdd';
-         //this.ulDaysFifth.appendChild(this.li);
-         //this.li = document.createElement('li');
-         //this.li.className = "li";
-         //this.li.innerHTML = 31;
-         //this.ulDaysFifth.appendChild(this.li);
-         }
-         if(this.monthDays === 30){
-         alert('equal 30');
-         }
-         if(this.monthDays === 29){
-         alert('equal 29');
-         }
-         if(this.monthDays === 28){
-         alert('equal 28');
-         }*/
-        /*for(var j=0; j<=this.monthDays; j++){
-         if(j<=7){
-         this.li.innerHTML = j;
-         //this.ulDays.innerHTML = "kjskask" + j;
-         }
-         if(j>7 && j<=14){
-         this.li.innerHTML = j;
-         //this.ulDaysSecond.innerHTML = "kjskask" + j;
-         }
-         if(j>14 && j<=21){
-         this.li.innerHTML = j;
-         //this.ulDaysThird.innerHTML = "kjskask";
-         }
-         if(j>21 && j<=28){
-         this.li.innerHTML = j;
-         //this.ulDaysForth.innerHTML = "kjskask";
-         }
-         if(j>28 && j <=this.monthDays){
-         this.li.innerHTML = j;
-         //this.ulDaysFifth.firstChild(this.ul).innerHTML = j;
-         }
-         }*/
+        }
+        if(this.monthDays === 30){
+            this.ulDaysFifth.firstChild.innerHTML = "29";
+            this.ulDaysFifth.childNodes[1].innerHTML = "30";
+            this.ulDaysFifth.lastChild.innerHTML = "";
+        }
+        if(this.monthDays === 31){
+            this.ulDaysFifth.firstChild.innerHTML = "29";
+            this.ulDaysFifth.childNodes[1].innerHTML = "30";
+            this.ulDaysFifth.lastChild.innerHTML = "31";
+        }
+
+    };
+
+    DatePicker.prototype.getNext = function() {
+
+        this.currentMonth = this.currentMonth + 1;
+        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
+
+        this.startDate = new Date(2015, this.currentMonth - 1, 1);
+        this.endDate = new Date(2015, this.currentMonth, 1);
+        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
+
+        this.blockDays.innerHTML = this.monthDays;
+        console.log(this.months[this.currentMonth] + " " + this.monthDays);
+
+        if(this.monthDays === 28){
+            this.ulDaysFifth.firstChild.innerHTML = "";
+            this.ulDaysFifth.childNodes[1].innerHTML = "";
+            this.ulDaysFifth.lastChild.innerHTML = "";
+        }
+        if(this.monthDays === 29){
+            this.ulDaysFifth.firstChild.innerHTML = "29";
+            this.ulDaysFifth.childNodes[1].innerHTML = "";
+            this.ulDaysFifth.lastChild.innerHTML = "";
+
+        }
+        if(this.monthDays === 30){
+            this.ulDaysFifth.firstChild.innerHTML = "29";
+            this.ulDaysFifth.childNodes[1].innerHTML = "30";
+            this.ulDaysFifth.lastChild.innerHTML = "";
+        }
+        if(this.monthDays === 31){
+            this.ulDaysFifth.firstChild.innerHTML = "29";
+            this.ulDaysFifth.childNodes[1].innerHTML = "30";
+            this.ulDaysFifth.lastChild.innerHTML = "31";
+        }
+
     };
 
     DatePicker.prototype.changeDate = function(){
 
         var btnPrev = document.getElementById('prev');
-        //var btnNext = document.getElementById('next');
+        var btnNext = document.getElementById('next');
         btnPrev.addEventListener('click', this.getPrevious.bind(this), false);
-        //btnNext.addEventListener('click', this.getNext.bind(this), false);
+        btnNext.addEventListener('click', this.getNext.bind(this), false);
 
     };
 
