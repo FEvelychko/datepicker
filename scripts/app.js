@@ -12,7 +12,6 @@
         this.currentMonth = 6;
         this.currentYear = 2015;
         return this;
-
     }
 
     DatePicker.prototype.addTemplate = function(){
@@ -33,7 +32,6 @@
         this.newDiv.innerHTML = this.template;
         document.body.appendChild(this.newDiv);
         return this;
-
     };
 
     DatePicker.prototype.setFields = function(){
@@ -54,8 +52,8 @@
 
         this.setViewLists();
         this.getMonthDays();
-        this.showChanges();
-        this.setDays();
+        this.showMonthYear();
+        this.setAllDays();
         return this;
     };
 
@@ -79,10 +77,9 @@
         this.daysDisplay.appendChild(this.ulDaysForth);
         this.daysDisplay.appendChild(this.ulDaysFifth);
         return this;
-
     };
 
-    DatePicker.prototype.setDays = function() {
+    DatePicker.prototype.setAllDays = function() {
 
         for(var j=1; j<=this.monthDays; j++){
             if(j<=7){
@@ -117,14 +114,12 @@
             }
         }
         return this;
-
     };
 
-    DatePicker.prototype.showChanges = function() {
+    DatePicker.prototype.showMonthYear = function() {
 
-        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
+        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " " + this.currentYear;
         return this;
-
     };
 
     DatePicker.prototype.getMonthDays = function() {
@@ -133,69 +128,68 @@
         this.endDate = new Date(this.currentYear, this.currentMonth + 1, 1);
         this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
         return this;
-
     };
+
+    DatePicker.prototype.setPossibleDays = function(days) {
+
+        if(days === 28){
+            for(var x = 0; x<=this.ulDaysFifth.children.length; x++){
+                this.ulDaysFifth.children[x].innerHTML = "";
+            }
+        }
+        if(days === 29){
+            this.ulDaysFifth.children[0].innerHTML = "29";
+            this.ulDaysFifth.children[1].innerHTML = "";
+            this.ulDaysFifth.children[2].innerHTML = "";
+        }
+        if(days === 30){
+            this.ulDaysFifth.children[0].innerHTML = "29";
+            this.ulDaysFifth.children[1].innerHTML = "30";
+            this.ulDaysFifth.children[2].innerHTML = "";
+        }
+        if(days === 31){
+            this.ulDaysFifth.children[0].innerHTML = "29";
+            this.ulDaysFifth.children[1].innerHTML = "30";
+            this.ulDaysFifth.children[2].innerHTML = "31";
+        }
+        return this;
+    };
+
+    DatePicker.prototype.setPossibleYears = function(month) {
+
+        if(month == 12){
+            this.currentMonth = 0;
+            this.currentYear += 1;
+        }
+        else if(month == -1){
+            this.currentMonth = 11;
+            this.currentYear -= 1;
+        }
+        return this;
+    };
+
 
     DatePicker.prototype.getPrevious = function() {
 
         this.currentMonth = this.currentMonth - 1;
-        this.showChanges();
-        this.getMonthDays();
-        console.log(this.months[this.currentMonth] + " " + this.monthDays);
-        console.log(this.ulDaysFifth.children.length);
+        this.setPossibleYears(this.currentMonth);
+        this.showMonthYear();                                                   /* on changing month, show current month/year */
+        this.getMonthDays();                                                    /* getting days from each month using difference between 2 months  */
+        this.setPossibleDays(this.monthDays);                                   /* depending on how many days in months, set this quantity */
+        console.log(this.months[this.currentMonth] + " " + this.monthDays + " " + this.currentYear);
+        return this;
 
-
-        if(this.monthDays === 28){
-            this.ulDaysFifth.firstChild.innerHTML = "";
-            this.ulDaysFifth.childNodes[1].innerHTML = "";
-            this.ulDaysFifth.lastChild.innerHTML = "";
-        }
-        if(this.monthDays === 29){
-            this.ulDaysFifth.firstChild.innerHTML = "29";
-            this.ulDaysFifth.childNodes[1].innerHTML = "";
-            this.ulDaysFifth.lastChild.innerHTML = "";
-
-        }
-        if(this.monthDays === 30){
-            this.ulDaysFifth.firstChild.innerHTML = "29";
-            this.ulDaysFifth.childNodes[1].innerHTML = "30";
-            this.ulDaysFifth.lastChild.innerHTML = "";
-        }
-        if(this.monthDays === 31){
-            this.ulDaysFifth.firstChild.innerHTML = "29";
-            this.ulDaysFifth.childNodes[1].innerHTML = "30";
-            this.ulDaysFifth.lastChild.innerHTML = "31";
-        }
     };
 
     DatePicker.prototype.getNext = function() {
 
         this.currentMonth = this.currentMonth + 1;
-        this.showChanges();
+        this.setPossibleYears(this.currentMonth);
+        this.showMonthYear();
         this.getMonthDays();
-        console.log(this.months[this.currentMonth] + " " + this.monthDays);
-
-        if(this.monthDays === 28){
-            this.ulDaysFifth.firstChild.innerHTML = "";
-            this.ulDaysFifth.childNodes[1].innerHTML = "";
-            this.ulDaysFifth.lastChild.innerHTML = "";
-        }
-        if(this.monthDays === 29){
-            this.ulDaysFifth.firstChild.innerHTML = "29";
-            this.ulDaysFifth.childNodes[1].innerHTML = "";
-            this.ulDaysFifth.lastChild.innerHTML = "";
-
-        }
-        if(this.monthDays === 30){
-            this.ulDaysFifth.firstChild.innerHTML = "29";
-            this.ulDaysFifth.childNodes[1].innerHTML = "30";
-            this.ulDaysFifth.lastChild.innerHTML = "";
-        }
-        if(this.monthDays === 31){
-            this.ulDaysFifth.firstChild.innerHTML = "29";
-            this.ulDaysFifth.childNodes[1].innerHTML = "30";
-            this.ulDaysFifth.lastChild.innerHTML = "31";
-        }
+        this.setPossibleDays(this.monthDays);
+        console.log(this.months[this.currentMonth] + " " + this.monthDays + " " + this.currentYear);
+        return this;
 
     };
 
@@ -205,6 +199,7 @@
         var btnNext = document.getElementById('next');
         btnPrev.addEventListener('click', this.getPrevious.bind(this), false);
         btnNext.addEventListener('click', this.getNext.bind(this), false);
+        return this;
 
     };
 
