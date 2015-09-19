@@ -9,7 +9,8 @@
         this.day = 86400000;
         this.months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         this.weekdays = ["Sun", "Mon", "Tus", "Wen", "Thu", "Fri", "Sat"];
-        this.currentMonth = 5;
+        this.currentMonth = 6;
+        this.currentYear = 2015;
         return this;
 
     }
@@ -32,16 +33,14 @@
         this.newDiv.innerHTML = this.template;
         document.body.appendChild(this.newDiv);
         return this;
+
     };
 
     DatePicker.prototype.setFields = function(){
 
-        this.blockDays = document.getElementById("days");
-
         this.yearDisplay = this.newDiv.querySelector('.yearview');                 /* setting year dating */
         this.weekdaysDisplay = this.newDiv.querySelector('.calendarhead');         /* setting week days dating */
         this.daysDisplay = this.newDiv.querySelector('.calendarbody');
-
         this.ul = document.createElement('ul');
         this.ul.className = "ul";
         this.weekdaysDisplay.appendChild(this.ul);
@@ -52,6 +51,15 @@
             this.li.innerHTML = this.weekdays[i];
             this.ul.appendChild(this.li);
         }
+
+        this.setViewLists();
+        this.getMonthDays();
+        this.showChanges();
+        this.setDays();
+        return this;
+    };
+
+    DatePicker.prototype.setViewLists = function() {
 
         this.ulDays = document.createElement('ul');
         this.ulDaysSecond = document.createElement('ul');
@@ -70,13 +78,11 @@
         this.daysDisplay.appendChild(this.ulDaysThird);
         this.daysDisplay.appendChild(this.ulDaysForth);
         this.daysDisplay.appendChild(this.ulDaysFifth);
+        return this;
 
-        this.startDate = new Date(2015, this.currentMonth, 1);
-        this.endDate = new Date(2015, this.currentMonth + 1, 1);
-        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
-        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
+    };
 
-        this.blockDays.innerHTML = this.monthDays;
+    DatePicker.prototype.setDays = function() {
 
         for(var j=1; j<=this.monthDays; j++){
             if(j<=7){
@@ -110,21 +116,34 @@
                 this.ulDaysFifth.appendChild(this.li);
             }
         }
-
         return this;
+
+    };
+
+    DatePicker.prototype.showChanges = function() {
+
+        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
+        return this;
+
+    };
+
+    DatePicker.prototype.getMonthDays = function() {
+
+        this.startDate = new Date(this.currentYear, this.currentMonth, 1);
+        this.endDate = new Date(this.currentYear, this.currentMonth + 1, 1);
+        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
+        return this;
+
     };
 
     DatePicker.prototype.getPrevious = function() {
 
         this.currentMonth = this.currentMonth - 1;
-        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
-
-        this.startDate = new Date(2015, this.currentMonth, 1);
-        this.endDate = new Date(2015, this.currentMonth + 1, 1);
-        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
-
-        this.blockDays.innerHTML = this.monthDays;
+        this.showChanges();
+        this.getMonthDays();
         console.log(this.months[this.currentMonth] + " " + this.monthDays);
+        console.log(this.ulDaysFifth.children.length);
+
 
         if(this.monthDays === 28){
             this.ulDaysFifth.firstChild.innerHTML = "";
@@ -147,19 +166,13 @@
             this.ulDaysFifth.childNodes[1].innerHTML = "30";
             this.ulDaysFifth.lastChild.innerHTML = "31";
         }
-
     };
 
     DatePicker.prototype.getNext = function() {
 
         this.currentMonth = this.currentMonth + 1;
-        this.yearDisplay.innerHTML = this.months[this.currentMonth] + " 2015";
-
-        this.startDate = new Date(2015, this.currentMonth - 1, 1);
-        this.endDate = new Date(2015, this.currentMonth, 1);
-        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
-
-        this.blockDays.innerHTML = this.monthDays;
+        this.showChanges();
+        this.getMonthDays();
         console.log(this.months[this.currentMonth] + " " + this.monthDays);
 
         if(this.monthDays === 28){
@@ -199,7 +212,6 @@
     datePicker.addTemplate();
     datePicker.setFields();
     datePicker.changeDate();
-
 
 
     /*DatePicker.prototype.getMonthDays = function(){
