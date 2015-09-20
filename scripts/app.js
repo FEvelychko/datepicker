@@ -7,16 +7,18 @@
     function DatePicker(){
 
         this.day = 86400000;
+        this.currentDate = new Date();
         this.months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         this.weekdays = ["Sun", "Mon", "Tus", "Wen", "Thu", "Fri", "Sat"];
         this.currentMonth = 6;
         this.currentYear = 2015;
         return this;
+
     }
 
     DatePicker.prototype.addTemplate = function(){
 
-        this.template =
+        var template =
             '<div class="datepicker">'+
             '<div class="head">'+
             '<div class="previous"><button id = "prev">prev</button></div>'+
@@ -28,10 +30,11 @@
             '<div class="calendarbody"></div>'+
             '</div>'+
             '</div>';
-        this.newDiv = document.createElement("div");
-        this.newDiv.innerHTML = this.template;
-        document.body.appendChild(this.newDiv);
+        var newDiv = document.createElement("div");
+        newDiv.innerHTML = template;
+        document.body.appendChild(newDiv);
         return this;
+
     };
 
     DatePicker.prototype.setFields = function(){
@@ -55,6 +58,7 @@
         this.showMonthYear();
         this.setAllDays();
         return this;
+
     };
 
     DatePicker.prototype.setViewLists = function() {
@@ -77,6 +81,7 @@
         this.daysDisplay.appendChild(this.ulDaysForth);
         this.daysDisplay.appendChild(this.ulDaysFifth);
         return this;
+
     };
 
     DatePicker.prototype.setAllDays = function() {
@@ -87,47 +92,65 @@
                 this.li.className = "li";
                 this.li.innerHTML = j;
                 this.ulDays.appendChild(this.li);
+                this.showCurrentDay(j);
             }
             if(j>7 && j<=14){
                 this.li = document.createElement('li');
                 this.li.className = "li";
                 this.li.innerHTML = j;
                 this.ulDaysSecond.appendChild(this.li);
+                this.showCurrentDay(j);
             }
             if(j>14 && j<=21){
                 this.li = document.createElement('li');
                 this.li.className = "li";
                 this.li.innerHTML = j;
                 this.ulDaysThird.appendChild(this.li);
+                this.showCurrentDay(j);
             }
             if(j>21 && j<=28){
                 this.li = document.createElement('li');
                 this.li.className = "li";
                 this.li.innerHTML = j;
                 this.ulDaysForth.appendChild(this.li);
+                this.showCurrentDay(j);
             }
             if(j>28 && j <=this.monthDays){
                 this.li = document.createElement('li');
                 this.li.className = "li";
                 this.li.innerHTML = j;
                 this.ulDaysFifth.appendChild(this.li);
+                this.showCurrentDay(j);
             }
         }
         return this;
+
+    };
+
+    DatePicker.prototype.showCurrentDay = function(number){
+
+        var today = this.currentDate.getDate();
+        if(number == today){
+            this.li.style.backgroundColor = 'red';
+        }
+        return this;
+
     };
 
     DatePicker.prototype.showMonthYear = function() {
 
         this.yearDisplay.innerHTML = this.months[this.currentMonth] + " " + this.currentYear;
         return this;
+
     };
 
     DatePicker.prototype.getMonthDays = function() {
 
-        this.startDate = new Date(this.currentYear, this.currentMonth, 1);
-        this.endDate = new Date(this.currentYear, this.currentMonth + 1, 1);
-        this.monthDays = Math.round((this.endDate - this.startDate) / this.day);
+        var startDate = new Date(this.currentYear, this.currentMonth, 1);
+        var endDate = new Date(this.currentYear, this.currentMonth + 1, 1);
+        this.monthDays = Math.round((endDate - startDate) / this.day);
         return this;
+
     };
 
     DatePicker.prototype.setPossibleDays = function(days) {
@@ -153,6 +176,7 @@
             this.ulDaysFifth.children[2].innerHTML = "31";
         }
         return this;
+
     };
 
     DatePicker.prototype.setPossibleYears = function(month) {
@@ -166,6 +190,7 @@
             this.currentYear -= 1;
         }
         return this;
+
     };
 
 
