@@ -20,6 +20,7 @@
 
         var template =
             '<div class="datepicker">'+
+            '<div class="headinput"></div>'+
             '<div class="head">'+
             '<div class="previous"><button id = "prev">prev</button></div>'+
             '<div class="yearview">August 2015</div>'+
@@ -30,9 +31,9 @@
             '<div class="calendarbody"></div>'+
             '</div>'+
             '</div>';
-        var newDiv = document.createElement("div");
-        newDiv.innerHTML = template;
-        document.body.appendChild(newDiv);
+        this.newDiv = document.createElement("div");
+        this.newDiv.innerHTML = template;
+        document.body.appendChild(this.newDiv);
         return this;
 
     };
@@ -93,6 +94,7 @@
                 this.li.innerHTML = j;
                 this.ulDays.appendChild(this.li);
                 this.showCurrentDay(j);
+                this.addEvent(j);
             }
             if(j>7 && j<=14){
                 this.li = document.createElement('li');
@@ -100,6 +102,7 @@
                 this.li.innerHTML = j;
                 this.ulDaysSecond.appendChild(this.li);
                 this.showCurrentDay(j);
+                this.addEvent(j);
             }
             if(j>14 && j<=21){
                 this.li = document.createElement('li');
@@ -107,6 +110,7 @@
                 this.li.innerHTML = j;
                 this.ulDaysThird.appendChild(this.li);
                 this.showCurrentDay(j);
+                this.addEvent(j);
             }
             if(j>21 && j<=28){
                 this.li = document.createElement('li');
@@ -114,6 +118,7 @@
                 this.li.innerHTML = j;
                 this.ulDaysForth.appendChild(this.li);
                 this.showCurrentDay(j);
+                this.addEvent(j);
             }
             if(j>28 && j <=this.monthDays){
                 this.li = document.createElement('li');
@@ -121,6 +126,7 @@
                 this.li.innerHTML = j;
                 this.ulDaysFifth.appendChild(this.li);
                 this.showCurrentDay(j);
+                this.addEvent(j);
             }
         }
         return this;
@@ -129,10 +135,24 @@
 
     DatePicker.prototype.showCurrentDay = function(number){
 
+        var currentDay = number;
         var today = this.currentDate.getDate();
-        if(number == today){
+        if(currentDay == today){
             this.li.style.backgroundColor = 'red';
         }
+        return this;
+
+    };
+
+    DatePicker.prototype.addEvent = function(number){
+
+        var chosenDay = number;
+        var input = this.newDiv.querySelector('.headinput');
+        var showCurrentDay = function(){
+            console.log(chosenDay + " " + this.months[this.currentMonth] + " " + this.currentYear);
+            input.innerHTML = chosenDay + " " + this.months[this.currentMonth] + " " + this.currentYear;
+        };
+        this.li.addEventListener('click', showCurrentDay.bind(this));
         return this;
 
     };
@@ -201,7 +221,7 @@
         this.showMonthYear();                                                   /* on changing month, show current month/year */
         this.getMonthDays();                                                    /* getting days from each month using difference between 2 months  */
         this.setPossibleDays(this.monthDays);                                   /* depending on how many days in months, set this quantity */
-        console.log(this.months[this.currentMonth] + " " + this.monthDays + " " + this.currentYear);
+        //console.log(this.months[this.currentMonth] + " " + this.monthDays + " " + this.currentYear);
         return this;
 
     };
@@ -213,7 +233,7 @@
         this.showMonthYear();
         this.getMonthDays();
         this.setPossibleDays(this.monthDays);
-        console.log(this.months[this.currentMonth] + " " + this.monthDays + " " + this.currentYear);
+        //console.log(this.months[this.currentMonth] + " " + this.monthDays + " " + this.currentYear);
         return this;
 
     };
