@@ -22,9 +22,9 @@
             '<div class="datepicker">'+
             '<div class="headinput"></div>'+
             '<div class="head">'+
-            '<div class="previous"><button id = "prev">prev</button></div>'+
+            '<div class="previous"><button class = "btn" id = "prev">prev</button></div>'+
             '<div class="yearview">August 2015</div>'+
-            '<div class="next"><button id = "next">next</button></div>'+
+            '<div class="next"><button class = "btn" id = "next">next</button></div>'+
             '</div>'+
             '<div class="body">'+
             '<div class="calendarhead"></div>'+
@@ -204,6 +204,7 @@
         if(month == 12){
             this.currentMonth = 0;
             this.currentYear += 1;
+
         }
         else if(month == -1){
             this.currentMonth = 11;
