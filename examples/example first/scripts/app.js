@@ -44,7 +44,7 @@
         this.weekdaysDisplay = this.newDiv.querySelector('.calendarhead');         /* setting week days dating */
         this.daysDisplay = this.newDiv.querySelector('.calendarbody');
         this.ul = document.createElement('ul');
-        this.ul.className = "ul";
+        this.ul.className = "ulDays";
         this.weekdaysDisplay.appendChild(this.ul);
 
         for(var i=0; i<this.weekdays.length;i++){
