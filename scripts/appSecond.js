@@ -91,16 +91,34 @@
 
     function setEvents(){
         btnNext.addEventListener('click', function(){
-            getNextData(update, fillDays)
+            getNextData(update, fillDays, changeYear)
         }, false);
         btnPrev.addEventListener('click', function(){
-            getPrevData(update, fillDays)
+            getPrevData(update, fillDays, changeYear)
         }, false);
     };
 
-    function getNextData(callUpdate, callFillDays){
+    function changeYear(){
+
+         if(firstMonth === 12){
+            secondMonth = 1;
+            firstMonth = secondMonth - 1;
+            year += 1;
+         }
+
+         if(firstMonth === -1){
+            secondMonth = 11;
+            firstMonth = secondMonth - 1;
+            year -= 1;
+         }
+
+    }
+
+    function getNextData(callUpdate, callFillDays, callback){
+
         firstMonth += 1;
         secondMonth += 1;
+        callback();
         prevDate = new Date(year, firstMonth-1, 1);
         startDate = new Date(year, firstMonth, 1);
         endDate = new Date(year, secondMonth, 1);
@@ -109,11 +127,14 @@
         yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
         callUpdate();
         callFillDays();
+        console.log(firstMonth);
     };
 
-    function getPrevData(callUpdate, callFillDays){
+    function getPrevData(callUpdate, callFillDays, callback){
+
         firstMonth -= 1;
         secondMonth -= 1;
+        callback();
         prevDate = new Date(year, firstMonth-1, 1);
         startDate = new Date(year, firstMonth, 1);
         endDate = new Date(year, secondMonth, 1);
@@ -122,15 +143,12 @@
         yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
         callUpdate();
         callFillDays();
+        console.log(firstMonth);
     };
 
     addTemplate();
     fillDays();
     setEvents();
-
-    console.log(weekdays[startDate.getDay()]);
-    console.log(weekdays[endDate.getDay()]);
-    console.log(monthDays);
 
 
 
