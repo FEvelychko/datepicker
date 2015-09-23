@@ -54,6 +54,7 @@
         btnNext = document.getElementById('next');
         btnPrev = document.getElementById('prev');
         ulList = document.getElementById('ul').children;
+
         for(var x = 0; x < ulList.length; x++){
             var firstDay = 7 + startDate.getDay();
             if(x < 7){
@@ -61,6 +62,7 @@
             }
             if(x >= 7 && x < firstDay){
                 ulList[x].innerHTML = lastDays(startDate.getDay());
+                ulList[x].style.color = '#555';
             }
             if(x >= firstDay && x < firstDay+1){
                 ulList[x].innerHTML = startCurrentMonthDays;
@@ -70,25 +72,56 @@
             }
             if(x >= firstDay+monthDays && x < ulList.length){
                 ulList[x].innerHTML = incrementNextMonthDays();
+                ulList[x].style.color = '#555';
             }
         }
+
+    };
+
+    function fillColorDifference(){
+
+        for(var x = 0; x < ulList.length; x++){
+            var firstDay = 7 + startDate.getDay();
+            if(x < 7){
+                ulList[x].style.color = 'aliceblue';
+            }
+            if(x >= 7 && x < firstDay){
+                ulList[x].style.color = 'aliceblue';
+
+            }
+            if(x >= firstDay && x < firstDay+1){
+                ulList[x].style.color = 'aliceblue';
+
+            }
+            if(x >= firstDay+1 && x < firstDay+monthDays){
+                ulList[x].style.color = 'aliceblue';
+            }
+            if(x >= firstDay+monthDays && x < ulList.length){
+                ulList[x].style.color = 'aliceblue';
+            }
+        }
+
     };
 
     function update(){
+
         startCurrentMonthDays = 1;
         startNextMonthDays = 0;
     };
 
     function lastDays(value){
+
         prevMonthDays += 1;
         return prevMonthDays - value;
     };
 
     function incrementCurrentMonthDays(){
+
         return startCurrentMonthDays += 1;
     };
 
     function incrementNextMonthDays(){
+
         return startNextMonthDays += 1;
     };
 
@@ -120,53 +153,52 @@
             year -= 1;
          }
 
-    }
+    };
 
-    function getQueryData(callback, callbackSec, callbackThi){
+    function calculateDays(){
+
+        prevDate = new Date(year, firstMonth-1, 1);
+        startDate = new Date(year, firstMonth, 1);
+        endDate = new Date(year, secondMonth, 1);
+        monthDays = Math.round((endDate - startDate) / day);
+        prevMonthDays = Math.round((startDate - prevDate) / day);
+        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
+
+    };
+
+    function getQueryData(callUpdate, callFillDays, callChangeYear){
 
         if(inputData.value !== ""){
             year = inputData.value;
         }
-        prevDate = new Date(year, firstMonth-1, 1);
-        startDate = new Date(year, firstMonth, 1);
-        endDate = new Date(year, secondMonth, 1);
-        monthDays = Math.round((endDate - startDate) / day);
-        prevMonthDays = Math.round((startDate - prevDate) / day);
-        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
-        callback();
-        callbackSec();
-        callbackThi();
+        calculateDays();
+        callUpdate();
+        fillColorDifference();
+        callFillDays();
+        callChangeYear();
 
-    }
+    };
 
-    function getNextData(callUpdate, callFillDays, callback){
+    function getNextData(callUpdate, callFillDays, callChangeYear){
 
         firstMonth += 1;
         secondMonth += 1;
-        callback();
-        prevDate = new Date(year, firstMonth-1, 1);
-        startDate = new Date(year, firstMonth, 1);
-        endDate = new Date(year, secondMonth, 1);
-        monthDays = Math.round((endDate - startDate) / day);
-        prevMonthDays = Math.round((startDate - prevDate) / day);
-        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
+        callChangeYear();
+        calculateDays();
         callUpdate();
+        fillColorDifference();
         callFillDays();
 
     };
 
-    function getPrevData(callUpdate, callFillDays, callback){
+    function getPrevData(callUpdate, callFillDays, callChangeYear){
 
         firstMonth -= 1;
         secondMonth -= 1;
-        callback();
-        prevDate = new Date(year, firstMonth-1, 1);
-        startDate = new Date(year, firstMonth, 1);
-        endDate = new Date(year, secondMonth, 1);
-        monthDays = Math.round((endDate - startDate) / day);
-        prevMonthDays = Math.round((startDate - prevDate) / day);
-        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
+        callChangeYear();
+        calculateDays();
         callUpdate();
+        fillColorDifference();
         callFillDays();
 
     };
