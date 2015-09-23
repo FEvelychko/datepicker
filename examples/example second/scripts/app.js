@@ -16,8 +16,8 @@
     prevMonthDays = Math.round((startDate - prevDate) / day);
     newDiv = document.createElement("div");
     showingDate = document.getElementById('date');
-    inputData = document.getElementById('yearData');
-    btnShowData = document.getElementById('showData');
+    //inputData = document.getElementById('yearData');
+    //btnShowData = document.getElementById('showData');
     weekdays = ["Sun", "Mon", "Tus", "Wen", "Thu", "Fri", "Sat"];
     months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
@@ -26,7 +26,10 @@
 
         var template =
             '<div class="datepicker">'+
-            '<div class="headinput"></div>'+
+            '<div class="headinput">' +
+            '<div class = "input"><input type="text" class = "yearData" id = "yearData" value=""/></div>' +
+            '<div class = "submit"><input type="submit" class = "showData" id = "showData" value="show"/></div>' +
+            '</div>'+
             '<div class="head">'+
             '<div class="previous"><button class = "btn" id = "prev">prev</button></div>'+
             '<div class="yearview">August 2015</div>'+
@@ -51,6 +54,8 @@
 
     function fillDays(){
 
+        inputData = document.getElementById('yearData');
+        btnShowData = document.getElementById('showData');
         btnNext = document.getElementById('next');
         btnPrev = document.getElementById('prev');
         ulList = document.getElementById('ul').children;

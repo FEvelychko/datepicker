@@ -1,4 +1,7 @@
 
+    body {
+        background: #e6e6e8;
+    }
     .datepicker {
         margin: 0 auto;
         width: 500px;
@@ -86,19 +89,49 @@
         margin: 50px auto;
         width: 400px;
         height: 350px;
-        /*background: dimgray;*/
         color: aliceblue;
         list-style-type: none;
     }
     .li{
         width: 25px;
         float: left;
-        margin: 5px;
+        margin: 5px;s
         display: block;
         font-weight: normal;
         cursor: pointer;
         padding: 10px;
     }
-    .liPrevMonth{
+    .input{
+        width: 90%;
+        float: left;
+    }
+    .submit{
+        width: 10%;
+        float: left;
+    }
+    .yearData{
+        width: 100%;
+        height: 48px;
+        font-family: Lato;
+        font-style: Normal;
+        font-weight: 300;
+        font-size: 12pt;
+        border: none;
+        position: relative;
+        background: transparent;
+    }
+    .showData{
+        width: 100%;
+        height: 48px;
+        background: green;
+        border: none;
+        position: relative;
+        font-style: Normal;
+        font-weight: 500;
+        font-size: 15px;
 
     }
+    .yearData:focus{
+        outline: 0px;
+    }
+
