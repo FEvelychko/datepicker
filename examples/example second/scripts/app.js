@@ -1,7 +1,7 @@
 /**
  * Created by Maksym on 21.09.2015.
  */
-    var day,li,ulList,liQuantity,year,yearDisplay,newDiv,startCurrentMonthDays,startNextMonthDays,months,btnPrev,btnNext,startDate,endDate,firstMonth,secondMonth,weekdays,monthDays,prevDate,prevMonthDays,showingDate;
+    var day,li,ulList,inputData,btnShowData,liQuantity,year,yearDisplay,newDiv,startCurrentMonthDays,startNextMonthDays,months,btnPrev,btnNext,startDate,endDate,firstMonth,secondMonth,weekdays,monthDays,prevDate,prevMonthDays,showingDate;
     year = 2015;
     day = 86400000;
     firstMonth = 3;
@@ -16,8 +16,11 @@
     prevMonthDays = Math.round((startDate - prevDate) / day);
     newDiv = document.createElement("div");
     showingDate = document.getElementById('date');
+    inputData = document.getElementById('yearData');
+    btnShowData = document.getElementById('showData');
     weekdays = ["Sun", "Mon", "Tus", "Wen", "Thu", "Fri", "Sat"];
     months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
 
     function addTemplate(){
 
@@ -90,12 +93,17 @@
     };
 
     function setEvents(){
+
         btnNext.addEventListener('click', function(){
             getNextData(update, fillDays, changeYear)
         }, false);
         btnPrev.addEventListener('click', function(){
             getPrevData(update, fillDays, changeYear)
         }, false);
+        btnShowData.addEventListener('click', function(){
+            getQueryData(update, fillDays, changeYear)
+        }, false);
+
     };
 
     function changeYear(){
@@ -114,6 +122,23 @@
 
     }
 
+    function getQueryData(callback, callbackSec, callbackThi){
+
+        if(inputData.value !== ""){
+            year = inputData.value;
+        }
+        prevDate = new Date(year, firstMonth-1, 1);
+        startDate = new Date(year, firstMonth, 1);
+        endDate = new Date(year, secondMonth, 1);
+        monthDays = Math.round((endDate - startDate) / day);
+        prevMonthDays = Math.round((startDate - prevDate) / day);
+        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
+        callback();
+        callbackSec();
+        callbackThi();
+
+    }
+
     function getNextData(callUpdate, callFillDays, callback){
 
         firstMonth += 1;
@@ -127,7 +152,7 @@
         yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
         callUpdate();
         callFillDays();
-        console.log(firstMonth);
+
     };
 
     function getPrevData(callUpdate, callFillDays, callback){
@@ -143,13 +168,12 @@
         yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
         callUpdate();
         callFillDays();
-        console.log(firstMonth);
+
     };
 
     addTemplate();
     fillDays();
     setEvents();
-
 
 
 
