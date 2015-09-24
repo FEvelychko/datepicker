@@ -16,8 +16,6 @@
     prevMonthDays = Math.round((startDate - prevDate) / day);
     newDiv = document.createElement("div");
     showingDate = document.getElementById('date');
-    //inputData = document.getElementById('yearData');
-    //btnShowData = document.getElementById('showData');
     weekdays = ["Sun", "Mon", "Tus", "Wen", "Thu", "Fri", "Sat"];
     months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
@@ -46,11 +44,16 @@
             li = document.createElement('li');
             ulList.appendChild(li);
             ulList.children[x].className = 'li';
+            li.hasAttribute("onclick");
         }
         yearDisplay = newDiv.querySelector('.yearview');
-        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
+        yearDisplay.innerHTML = months[firstMonth] + " " + year;
 
     };
+
+    function showChosenDate(value){
+        console.log(value + " " + months[firstMonth] + " " + year);
+    }
 
     function fillDays(){
 
@@ -60,6 +63,17 @@
         btnPrev = document.getElementById('prev');
         ulList = document.getElementById('ul').children;
 
+        function incrementCurrentMonthDays(){
+            return startCurrentMonthDays += 1;
+        };
+        function incrementNextMonthDays(){
+            return startNextMonthDays += 1;
+        };
+        function lastDays(value){
+            prevMonthDays += 1;
+            return prevMonthDays - value;
+        };
+
         for(var x = 0; x < ulList.length; x++){
             var firstDay = 7 + startDate.getDay();
             if(x < 7){
@@ -68,16 +82,29 @@
             if(x >= 7 && x < firstDay){
                 ulList[x].innerHTML = lastDays(startDate.getDay());
                 ulList[x].style.color = '#555';
+                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
+
+                /*if($(ulList[x]).data('clicked')) {
+                    alert('yes');
+                }*/
+                /*if (ulList[x].hasAttribute("onclick")) {
+                    //x.setAttribute("target", "_self");
+                    ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
+                }*/
+                //ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
             }
             if(x >= firstDay && x < firstDay+1){
                 ulList[x].innerHTML = startCurrentMonthDays;
+                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
             }
             if(x >= firstDay+1 && x < firstDay+monthDays){
                 ulList[x].innerHTML = incrementCurrentMonthDays();
+                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
             }
             if(x >= firstDay+monthDays && x < ulList.length){
                 ulList[x].innerHTML = incrementNextMonthDays();
                 ulList[x].style.color = '#555';
+                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
             }
         }
 
@@ -109,25 +136,8 @@
     };
 
     function update(){
-
         startCurrentMonthDays = 1;
         startNextMonthDays = 0;
-    };
-
-    function lastDays(value){
-
-        prevMonthDays += 1;
-        return prevMonthDays - value;
-    };
-
-    function incrementCurrentMonthDays(){
-
-        return startCurrentMonthDays += 1;
-    };
-
-    function incrementNextMonthDays(){
-
-        return startNextMonthDays += 1;
     };
 
     function setEvents(){
@@ -167,20 +177,20 @@
         endDate = new Date(year, secondMonth, 1);
         monthDays = Math.round((endDate - startDate) / day);
         prevMonthDays = Math.round((startDate - prevDate) / day);
-        yearDisplay.innerHTML = monthDays + " " + months[firstMonth] + " " + year;
+        yearDisplay.innerHTML = months[firstMonth] + " " + year;
 
     };
 
     function getQueryData(callUpdate, callFillDays, callChangeYear){
 
-        if(inputData.value !== ""){
-            year = inputData.value;
+        if(!isNaN(inputData.value)){
+            year = Number(inputData.value);
         }
+        callChangeYear();
         calculateDays();
         callUpdate();
         fillColorDifference();
         callFillDays();
-        callChangeYear();
 
     };
 
