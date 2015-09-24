@@ -1,7 +1,7 @@
 /**
  * Created by Maksym on 21.09.2015.
  */
-    var day,li,ulList,inputData,btnShowData,liQuantity,year,yearDisplay,newDiv,startCurrentMonthDays,startNextMonthDays,months,btnPrev,btnNext,startDate,endDate,firstMonth,secondMonth,weekdays,monthDays,prevDate,prevMonthDays,showingDate;
+    var day,li,ulList,yearData,monthData,dateData,chosenData,btnShowData,liQuantity,year,yearDisplay,newDiv,startCurrentMonthDays,startNextMonthDays,months,btnPrev,btnNext,startDate,endDate,firstMonth,secondMonth,weekdays,monthDays,prevDate,prevMonthDays,showingDate;
     year = 2015;
     day = 86400000;
     firstMonth = 3;
@@ -25,7 +25,16 @@
         var template =
             '<div class="datepicker">'+
             '<div class="headinput">' +
-            '<div class = "input"><input type="text" class = "yearData" id = "yearData" value=""/></div>' +
+            '<div class = "input">' +
+            '<div class = "inputfirst">' +
+            /*'<input type="text" class = "yearData" id = "monthData" value="month"/>' +
+            '<input type="text" class = "yearData" id = "dateData" value="date"/>'+*/
+            '<input type="text" class = "yearData" id = "yearData" value="year"/>'+
+            '</div>' +
+            '<div class = "inputsecond">' +
+            '<div class = "chosenData" id = "chosenData"/></div>' +
+            '</div>' +
+            '</div>' +
             '<div class = "submit"><input type="submit" class = "showData" id = "showData" value="show"/></div>' +
             '</div>'+
             '<div class="head">'+
@@ -51,14 +60,24 @@
 
     };
 
-    function showChosenDate(value){
-        console.log(value + " " + months[firstMonth] + " " + year);
+    function showChosenDate(value, valueSec){
+        chosenData.innerHTML = value + " " + months[firstMonth] + " " + year;
+    }
+    function showPrevChosenDate(value){
+        chosenData.innerHTML = value + " " + months[firstMonth-1] + " " + year;
+    }
+    function showNextChosenDate(value){
+        chosenData.innerHTML = value + " " + months[firstMonth+1] + " " + year;
     }
 
     function fillDays(){
 
-        inputData = document.getElementById('yearData');
+        yearData = document.getElementById('yearData');
+        monthData = document.getElementById('monthData');
+        dateData = document.getElementById('dateData');
+
         btnShowData = document.getElementById('showData');
+        chosenData = document.getElementById('chosenData');
         btnNext = document.getElementById('next');
         btnPrev = document.getElementById('prev');
         ulList = document.getElementById('ul').children;
@@ -82,29 +101,20 @@
             if(x >= 7 && x < firstDay){
                 ulList[x].innerHTML = lastDays(startDate.getDay());
                 ulList[x].style.color = '#555';
-                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
-
-                /*if($(ulList[x]).data('clicked')) {
-                    alert('yes');
-                }*/
-                /*if (ulList[x].hasAttribute("onclick")) {
-                    //x.setAttribute("target", "_self");
-                    ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
-                }*/
-                //ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
+                ulList[x].addEventListener('click', function(x){var liData = ulList[x].innerHTML; showPrevChosenDate(liData)}.bind(fillDays, x), false);
             }
             if(x >= firstDay && x < firstDay+1){
                 ulList[x].innerHTML = startCurrentMonthDays;
-                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
+                ulList[x].addEventListener('click', function(x){var liData = ulList[x].innerHTML;showChosenDate(liData)}.bind(fillDays, x), false);
             }
             if(x >= firstDay+1 && x < firstDay+monthDays){
                 ulList[x].innerHTML = incrementCurrentMonthDays();
-                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
+                ulList[x].addEventListener('click', function(x){var liData = ulList[x].innerHTML;showChosenDate(liData)}.bind(fillDays, x), false);
             }
             if(x >= firstDay+monthDays && x < ulList.length){
                 ulList[x].innerHTML = incrementNextMonthDays();
                 ulList[x].style.color = '#555';
-                ulList[x].addEventListener('click', function(x){var kozel = ulList[x].innerHTML; showChosenDate(kozel)}.bind(fillDays, x), false);
+                ulList[x].addEventListener('click', function(x){var liData = ulList[x].innerHTML; showNextChosenDate(liData)}.bind(fillDays, x), false);
             }
         }
 
@@ -183,9 +193,16 @@
 
     function getQueryData(callUpdate, callFillDays, callChangeYear){
 
-        if(!isNaN(inputData.value)){
-            year = Number(inputData.value);
+        if(!isNaN(yearData.value)){
+            year = Number(yearData.value);
         }
+        /*if(monthData.value !== ""){
+            for(var x = 0; x<months.length; x++){
+                if(months[x] === monthData.value){
+                    firstMonth = x;
+                }
+            }
+        }*/
         callChangeYear();
         calculateDays();
         callUpdate();
